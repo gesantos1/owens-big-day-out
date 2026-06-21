@@ -1,0 +1,165 @@
+---
+// Landing page for Owen's BIG Day Out!
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="/favicons/site.webmanifest" />
+    <link rel="shortcut icon" href="/favicons/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Owen's BIG Day Out!</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Owen's BIG Day Out!" />
+    <meta property="og:description" content="A happy retro adventure for kids — explore Philadelphia with Owen!" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Owen's BIG Day Out!" />
+    <meta name="twitter:description" content="A happy retro adventure for kids — explore Philadelphia with Owen!" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 100%;
+        min-height: 100%;
+        color: white;
+        font-family: 'Press Start 2P', cursive;
+        background: linear-gradient(#7ec8ff 0%, #a3d8ff 45%, #cdeaff 70%, #5bb24a 70%, #4fa340 100%);
+        background-attachment: fixed;
+      }
+      main {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem 1rem 3rem;
+      }
+      .sun {
+        position: fixed;
+        top: 24px; right: 36px;
+        width: 70px; height: 70px;
+        background: #ffe24a;
+        border-radius: 50%;
+        box-shadow: 0 0 0 8px rgba(255,226,74,0.35);
+      }
+      h1 {
+        font-size: 2rem;
+        line-height: 1.5;
+        color: #ffd24a;
+        text-shadow: 4px 4px 0 #000;
+        margin-bottom: 1.5rem;
+      }
+      .card {
+        background: rgba(0,0,0,0.55);
+        border: 4px solid #ffd24a;
+        border-radius: 14px;
+        max-width: 720px;
+        padding: 1.5rem;
+      }
+      .story {
+        font-size: 0.72rem;
+        line-height: 2;
+      }
+      .story strong { color: #ffd24a; }
+      .controls {
+        font-size: 0.6rem;
+        line-height: 1.9;
+        color: #cdeaff;
+        margin-top: 1.2rem;
+      }
+      .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+      .play-btn, .share-btn {
+        display: inline-block;
+        padding: 1rem 1.8rem;
+        font-size: 0.9rem;
+        font-family: 'Press Start 2P', cursive;
+        border-radius: 10px;
+        text-decoration: none;
+        cursor: pointer;
+        border: 4px solid;
+        transition: transform 0.1s, background 0.2s, color 0.2s;
+      }
+      .play-btn { color: #fff; background: #4ac34a; border-color: #fff; }
+      .play-btn:hover { transform: scale(1.06); background: #5ad35a; }
+      .share-btn { color: #4ac3ff; background: transparent; border-color: #4ac3ff; }
+      .share-btn:hover { background: #4ac3ff; color: #000; }
+      .features {
+        margin-top: 2rem;
+        font-size: 0.58rem;
+        line-height: 2.2;
+        color: #fff;
+        text-shadow: 2px 2px 0 #000;
+      }
+      @media (max-width: 600px) {
+        h1 { font-size: 1.2rem; }
+        .story { font-size: 0.6rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sun"></div>
+    <main>
+      <h1>OWEN'S BIG<br />DAY OUT!</h1>
+      <div class="card">
+        <p class="story">
+          Meet <strong>Owen</strong>, a happy kid with bright red hair! Today is his
+          <strong>BIG day out</strong> in <strong>Philadelphia</strong>.
+          <br /><br />
+          Walk to the park, visit the <strong>zoo</strong>, stomp with the
+          <strong>dinosaurs</strong>, dig in the <strong>giant sandbox</strong>, and
+          head <strong>home</strong> — collecting construction tools and meeting
+          friendly dogs, cats, and silly characters along the way.
+          <strong>Mom, Dad, Nonno, Grandmama, and Grandpa</strong> are all here to help!
+          <br /><br />
+          Everyone is happy. Everyone is kind. It's just a wonderful day!
+        </p>
+        <p class="controls">
+          ⬅️➡️⬆️⬇️ Arrow keys or WASD to move<br />
+          SPACE bar to JUMP &nbsp;•&nbsp; Walk right to explore!
+        </p>
+      </div>
+
+      <div class="btn-group">
+        <a href="/play" class="play-btn">▶ PLAY</a>
+        <button class="share-btn" id="share-btn">SHARE</button>
+      </div>
+
+      <div class="features">
+        🏙️ 6 Philadelphia levels &nbsp; 🦁 Zoo animals &nbsp; 🦕 Dinosaurs<br />
+        🔧 Collect tools &nbsp; 🐶 Dogs &amp; cats &nbsp; 🎉 Fun surprises
+      </div>
+    </main>
+
+    <script>
+      const shareBtn = document.getElementById('share-btn');
+      shareBtn?.addEventListener('click', async () => {
+        const shareData = {
+          title: "Owen's BIG Day Out!",
+          text: "Play Owen's BIG Day Out — a happy kids' adventure in Philadelphia!",
+          url: window.location.origin,
+        };
+        try {
+          if (navigator.share) {
+            await navigator.share(shareData);
+          } else {
+            await navigator.clipboard.writeText(shareData.url);
+            shareBtn.textContent = '✓ LINK COPIED!';
+            setTimeout(() => { shareBtn.textContent = 'SHARE'; }, 1500);
+          }
+        } catch (err) {
+          /* user cancelled — no problem */
+        }
+      });
+    </script>
+  </body>
+</html>
