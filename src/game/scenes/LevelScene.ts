@@ -4,7 +4,7 @@ import { NPC } from "../entities/NPC";
 import { Item } from "../entities/Item";
 import { MobileControls } from "../utils/MobileControls";
 import { audio } from "../audio/AudioEngine";
-import type { LevelConfig, BuildingDef, PropDef, AnimalDef } from "../levels/types";
+import type { LevelConfig, BuildingDef, PropDef, AnimalDef, CompanionDef } from "../levels/types";
 
 interface Building extends BuildingDef { sprite?: Phaser.GameObjects.Sprite; }
 interface Prop extends PropDef { sprite?: Phaser.GameObjects.Sprite; labelObj?: Phaser.GameObjects.Text; }
@@ -13,6 +13,11 @@ interface Animal extends AnimalDef {
   startX: number; startZ: number;
   velocityX: number; velocityZ: number; wanderTimer: number;
   w: number; h: number;
+}
+interface Companion {
+  def: CompanionDef;
+  sprite: Phaser.GameObjects.Sprite;
+  worldX: number; worldZ: number; bobT: number;
 }
 
 const SCREEN_W = 1024;
@@ -30,6 +35,7 @@ export class LevelScene extends Phaser.Scene {
   private buildings: Building[] = [];
   private props: Prop[] = [];
   private animals: Animal[] = [];
+  private companions: Companion[] = [];
 
   // Parallax layers
   private skyLayer!: Phaser.GameObjects.TileSprite;
@@ -75,6 +81,7 @@ export class LevelScene extends Phaser.Scene {
     this.buildings = [];
     this.props = [];
     this.animals = [];
+    this.companions = [];
     this.worldWidth = this.cfg.worldWidth;
 
     this.createSky();
@@ -95,6 +102,7 @@ export class LevelScene extends Phaser.Scene {
 
     this.createNPCs();
     this.createItems();
+    this.createCompanions();
 
     this.setupDialogUI();
     this.setupHUD();
@@ -209,6 +217,42 @@ export class LevelScene extends Phaser.Scene {
   private createNPCs(): void {
     for (const cfg of this.cfg.npcs) {
       this.npcs.push(new NPC(this, cfg));
+    }
+  }
+
+  // Mom & Dad walk along with Owen (only on levels that list companions).
+  private createCompanions(): void {
+    const startX = this.player.getWorldX();
+    const startZ = this.player.getWorldZ();
+    for (const def of this.cfg.companions ?? []) {
+      const wx = startX + def.offsetX;
+      const wz = startZ + (def.offsetZ ?? 0);
+      const sprite = this.add.sprite(wx, wz, def.texture);
+      sprite.setOrigin(0.5, 1).setScale(2).setDepth(wz);
+      this.companions.push({ def, sprite, worldX: wx, worldZ: wz, bobT: 0 });
+    }
+  }
+
+  private updateCompanions(delta: number): void {
+    const px = this.player.getWorldX();
+    const pz = this.player.getWorldZ();
+    const follow = Math.min(1, (delta / 1000) * 6); // smooth catch-up
+
+    for (const c of this.companions) {
+      const targetX = px + c.def.offsetX;
+      const targetZ = Phaser.Math.Clamp(pz + (c.def.offsetZ ?? 0), 400, 540);
+      const dx = targetX - c.worldX;
+      c.worldX += dx * follow;
+      c.worldZ += (targetZ - c.worldZ) * follow;
+
+      const moving = Math.abs(dx) > 1.2;
+      if (moving) c.sprite.setFlipX(dx < 0);
+      c.bobT += delta;
+      const bob = moving ? Math.abs(Math.sin(c.bobT / 120)) * 3 : 0;
+
+      c.sprite.x = c.worldX - this.cameraX;
+      c.sprite.y = c.worldZ - bob;
+      c.sprite.setDepth(c.worldZ);
     }
   }
 
@@ -471,6 +515,7 @@ export class LevelScene extends Phaser.Scene {
     }
 
     this.updateAnimals(delta);
+    this.updateCompanions(delta);
 
     for (const item of this.items) item.updateScreenPosition(this.cameraX);
 

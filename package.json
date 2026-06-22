@@ -16,6 +16,8 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "tslib": "^2.8.1"
+    "@astrojs/check": "^0.9.9",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
   }
 }

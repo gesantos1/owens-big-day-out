@@ -52,6 +52,13 @@ export const LEVEL_6: LevelConfig = {
     { texture: "directional_sign", worldX: 3600, worldZ: 470, label: "Owen's House →" },
   ],
 
+  // Mom & Dad walk WITH Owen again on the journey home. The grandparents greet
+  // him along the way.
+  companions: [
+    { name: "Dad", texture: "dad", offsetX: -60, offsetZ: 14 },
+    { name: "Mom", texture: "mom", offsetX: -105, offsetZ: 26 },
+  ],
+
   npcs: [
     {
       name: "Nonno", texture: "nonno", worldX: 500, worldZ: 470, wandering: false,
@@ -72,20 +79,6 @@ export const LEVEL_6: LevelConfig = {
       dialog: [
         "Look at all those tools, Owen! You're a real builder now!",
         "Almost home, champ. Everyone's so excited to see you!",
-      ],
-    },
-    {
-      name: "Dad", texture: "dad", worldX: 2650, worldZ: 480, wandering: false,
-      dialog: [
-        "My buddy's home! Best day ever, right Owen?",
-        "Mom's got your favorite dinner waiting. Let's go celebrate!",
-      ],
-    },
-    {
-      name: "Mom", texture: "mom", worldX: 3250, worldZ: 470, wandering: false,
-      dialog: [
-        "You made it, Owen! I'm so proud of you, my love.",
-        "Welcome home, sweetheart. What a wonderful BIG day out!",
       ],
     },
   ],

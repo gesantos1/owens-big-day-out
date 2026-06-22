@@ -42,6 +42,15 @@ export interface ItemDef {
   scale?: number;
 }
 
+// A family member who walks ALONGSIDE Owen (follows him), instead of standing
+// still. Used for Mom & Dad in level 1 and level 6.
+export interface CompanionDef {
+  name: string;
+  texture: string;
+  offsetX: number;   // how far behind Owen (negative = trails him)
+  offsetZ?: number;  // depth stagger so companions don't overlap
+}
+
 export interface LevelConfig {
   key: string;          // Phaser scene key
   title: string;        // BIG level title shown on entry (3x size)
@@ -57,4 +66,5 @@ export interface LevelConfig {
   npcs: NPCConfig[];
   animals: AnimalDef[];
   items: ItemDef[];
+  companions?: CompanionDef[]; // family who walk with Owen this level
 }

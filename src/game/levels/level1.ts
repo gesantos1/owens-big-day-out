@@ -59,23 +59,13 @@ export const LEVEL_1: LevelConfig = {
     { texture: "directional_sign", worldX: 3700, worldZ: 470, label: "To the Park →" },
   ],
 
+  // Mom & Dad walk WITH Owen the whole way on his first level.
+  companions: [
+    { name: "Dad", texture: "dad", offsetX: -60, offsetZ: 14 },
+    { name: "Mom", texture: "mom", offsetX: -105, offsetZ: 26 },
+  ],
+
   npcs: [
-    {
-      name: "Mom", texture: "mom", worldX: 520, worldZ: 470, wandering: false,
-      dialog: [
-        "Good morning, Owen! Ready for your BIG day out?",
-        "Hold my hand near the street, sweetie. Off we go!",
-        "I packed your favorite snacks. This is going to be so fun!",
-      ],
-    },
-    {
-      name: "Dad", texture: "dad", worldX: 700, worldZ: 480, wandering: false,
-      dialog: [
-        "There's my buddy! Let's go on an adventure, Owen!",
-        "We'll see animals, dinosaurs, AND a giant sandbox today!",
-        "High five, champ! This is the best day ever.",
-      ],
-    },
     {
       name: "Mail Carrier", texture: "mail_carrier", worldX: 1380, worldZ: 470, wandering: true,
       dialog: [
